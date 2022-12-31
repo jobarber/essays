@@ -1,6 +1,6 @@
 import mlflow
 
-from essayproject.trialmodels.transformertrial import TransformerTrial
+from trialmodels.transformertrial import TransformerTrial
 
 
 def run_baseline_trial(trait=1):
@@ -74,7 +74,7 @@ def run_cased_small_trial(trait=1):
 if __name__ == '__main__':
     for trait in [1, 2]:
         with mlflow.start_run(run_name=f'transformer_trait{trait}'):
-                run_baseline_trial(trait=trait)
-                run_cased_trial(trait=trait)
-                run_base_small_trial(trait=trait)
-                run_cased_small_trial(trait=trait)
+            run_baseline_trial(trait=trait)
+            run_cased_trial(trait=trait)
+            run_base_small_trial(trait=trait)
+            run_cased_small_trial(trait=trait)
