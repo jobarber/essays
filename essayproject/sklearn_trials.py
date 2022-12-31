@@ -13,7 +13,7 @@ def run_baseline_trial(trait=1):
         The trait to use as the target.
     """
     for trait in [1, 2]:
-        trial = LogisticRegressionTrial(df_path='data/sample_essay_dataset.csv',
+        trial = LogisticRegressionTrial(df_path='data/sample_essay_dataset_clean.csv',
                                         input_column='response_text',
                                         target_column=f'trait{trait}_final_score',
                                         pycm_metrics=['Overall_MCC', 'ACC', 'MCC'],

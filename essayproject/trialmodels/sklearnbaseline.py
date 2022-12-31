@@ -13,7 +13,7 @@ from sklearn.pipeline import Pipeline
 class LogisticRegressionTrial:
     """A baseline trial class."""
 
-    def __init__(self, df_path='data/sample_essay_dataset.csv',
+    def __init__(self, df_path='data/sample_essay_dataset_clean.csv',
                  input_column='response_text',
                  target_column='trait1_final_score',
                  pycm_metrics=['Overall_MCC', 'ACC', 'MCC'],

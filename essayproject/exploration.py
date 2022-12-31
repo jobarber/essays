@@ -29,7 +29,7 @@ class Exploration:
     >>> exploration.analyze()
     """
 
-    def __init__(self, dataset_path='data/sample_essay_dataset.csv',
+    def __init__(self, dataset_path='data/sample_essay_dataset_clean.csv',
                  input_column='response_text',
                  target_column='trait1_final_score',
                  exploration_name='trait_1'):
@@ -150,7 +150,7 @@ class Exploration:
 if __name__ == '__main__':
     with mlflow.start_run(run_name='data_exploration'):
         for trait in [1, 2]:
-            exploration = Exploration(dataset_path='data/sample_essay_dataset.csv',
+            exploration = Exploration(dataset_path='data/sample_essay_dataset_clean.csv',
                                       input_column='response_text',
                                       target_column=f'trait{trait}_final_score',
                                       exploration_name=f'trait_{trait}')

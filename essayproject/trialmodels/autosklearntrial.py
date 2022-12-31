@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 class AutoSklearnTrial:
     """A single automl trial on a single dataset for a specific feature."""
 
-    def __init__(self, df_path='data/sample_essay_dataset.csv',
+    def __init__(self, df_path='data/sample_essay_dataset_clean.csv',
                  input_column='response_text',
                  target_column='trait1_final_score',
                  task='classification',

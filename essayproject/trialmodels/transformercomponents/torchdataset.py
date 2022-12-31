@@ -4,7 +4,7 @@ from torch.utils.data import Dataset
 
 class TorchDataset(Dataset):
 
-    def __init__(self, dataset_path='data/sample_essay_dataset.csv',
+    def __init__(self, dataset_path='data/sample_essay_dataset_clean.csv',
                  input_column='response_text',
                  target_column='trait1_final_score',
                  train=True):
