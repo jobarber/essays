@@ -24,12 +24,23 @@ class LogisticRegressionTrial:
         self.df = pd.read_csv(df_path)
         self.input_column = input_column
         self.target_column = target_column
-        df_split = train_test_split(self.df[input_column].values.tolist(),
-                                    self.df[target_column].to_list(),
-                                    random_state=42,
-                                    stratify=self.df[target_column].to_list(),
-                                    train_size=train_size)
-        self.X_train, self.X_test, self.y_train, self.y_test = df_split
+        # We need to do repeatable stratified random sampling.
+        train_df = self.df.groupby(self.target_column,
+                                   group_keys=False).apply(lambda x: x.sample(frac=train_size, random_state=42))
+        supplement = pd.read_csv('data/sample_essay_dataset_supplement.csv')
+        train_df = pd.concat(train_df, supplement, ignore_index=True)
+        # Be sure that there is no data leakage.
+        merged_df = self.df.merge(train_df.drop_duplicates(),
+                                  on=[input_column, target_column],
+                                  how='left', indicator=True)
+        # Filter out the duplicates
+        valid_df = merged_df[merged_df['_merge'] == 'left_only']
+
+        self.X_train = train_df[input_column].to_list()
+        self.X_test = valid_df[input_column].to_list()
+        self.y_train = train_df[target_column].values
+        self.y_test = valid_df[target_column].values
+
         self.pycm_metrics = pycm_metrics
         self.trial_name = trial_name
         self.dataset_name = dataset_name
