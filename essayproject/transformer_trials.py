@@ -1,6 +1,6 @@
 import mlflow
 
-from essayproject.trial_utils.transformertrial import TransformerTrial
+from essayproject.trialmodels.transformertrial import TransformerTrial
 
 
 def run_baseline_trial(trait=1):

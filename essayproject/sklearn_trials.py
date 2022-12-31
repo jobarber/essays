@@ -1,7 +1,7 @@
 import mlflow
 
-from trial_utils.autosklearntrial import AutoSklearnTrial
-from trial_utils.sklearnbaseline import LogisticRegressionTrial
+from trialmodels.autosklearntrial import AutoSklearnTrial
+from trialmodels.sklearnbaseline import LogisticRegressionTrial
 
 
 def run_baseline_trial(trait=1):

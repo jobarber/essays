@@ -10,8 +10,8 @@ from sklearn.utils.class_weight import compute_class_weight
 from torch import optim
 from torch.utils.data import DataLoader
 
-from essayproject.trial_utils.torchmodel import EssayModel
-from torchdataset import TorchDataset
+from essayproject.trialmodels.transformercomponents.torchmodel import EssayModel
+from essayproject.trialmodels.transformercomponents.torchdataset import TorchDataset
 
 torch.manual_seed(42)
 
