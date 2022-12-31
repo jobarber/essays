@@ -17,6 +17,18 @@ $ mlflow run essayproject -e sklearn --env-manager=local
 $ mlflow run essayproject -e transformers --env-manager=local
 ```
 
+Results of each run can be seen through the mlflow UI:
+
+```
+$ mlflow ui -h 127.0.0.1:5000
+```
+
+Or UI results can be served from a remote server:
+
+```
+$ mlflow ui -h 0.0.0.0:5000
+```
+
 ## Some initial analysis (more to come)
 Some trends appear in the data that could potentially be leveraged for a machine learning model. For example, you can see in the 
 image below that the highest scored essays have fewer noun subjects and more punctuation than other essays for trait 1.
