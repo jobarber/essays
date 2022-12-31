@@ -27,7 +27,7 @@ def clean(text):
 
     # Add spaces where the space appears to be on the wrong
     # side of the period.
-    normal_spaced_text = re.sub(r' .(\w)', r'. \1', spaced_text)
+    normal_spaced_text = re.sub(r' [.](\w)', r'. \1', spaced_text)
 
     # Deal with @-tokens. I see vague patterns for these tokens,
     # but no consistent pattern. So for now, let's remove the number
@@ -54,7 +54,7 @@ def clean_column(dataset_path, column_name):
     df = pd.read_csv(dataset_path)
     df[column_name] = df[column_name].apply(clean)
     path, ext = os.path.splitext(dataset_path)
-    df.to_csv(path + '_clean.csv')
+    df.to_csv(path + '_clean.csv', index=False)
 
 
 if __name__ == '__main__':
