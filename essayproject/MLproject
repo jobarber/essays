@@ -1,0 +1,11 @@
+name: tutorial
+
+python_env: python_env.yaml
+
+entry_points:
+  exploration:
+    command: "python exploration.py"
+  sklearn:
+    command: "python sklearn_trials.py"
+  transformers:
+    command: "python transformer_trials.py"
