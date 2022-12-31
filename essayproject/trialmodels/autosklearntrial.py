@@ -29,7 +29,7 @@ class AutoSklearnTrial:
         train_df = self.df.groupby(self.target_column,
                                    group_keys=False).apply(lambda x: x.sample(frac=train_size, random_state=42))
         supplement = pd.read_csv('data/sample_essay_dataset_supplement.csv')
-        train_df = pd.concat(train_df, supplement, ignore_index=True)
+        train_df = pd.concat([train_df, supplement], ignore_index=True)
         # Be sure that there is no data leakage.
         merged_df = self.df.merge(train_df.drop_duplicates(),
                                   on=[input_column, target_column],

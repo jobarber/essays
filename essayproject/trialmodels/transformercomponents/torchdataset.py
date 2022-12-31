@@ -30,7 +30,7 @@ class TorchDataset(Dataset):
         self.df = train_df if train else valid_df
         if train:
             supplement = pd.read_csv('data/sample_essay_dataset_supplement.csv')
-            self.df = pd.concat(self.df, supplement, ignore_index=True)
+            self.df = pd.concat([self.df, supplement], ignore_index=True)
             self.df = self.df.sample(frac=1.)
 
     def _get_train_test_split(self, df, input_column, target_column):
