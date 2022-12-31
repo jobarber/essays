@@ -1,6 +1,6 @@
 import mlflow
 
-from essayproject.trialutils.autosklearntrial import AutoSklearnTrial
+from essayproject.trial_utils.autosklearntrial import AutoSklearnTrial
 
 
 def run_baseline_trial(trait=1):
