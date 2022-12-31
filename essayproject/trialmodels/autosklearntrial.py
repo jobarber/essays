@@ -94,7 +94,7 @@ class AutoSklearnTrial:
     def log(self):
         """Log model parameters nd metrics and register the model."""
 
-        with mlflow.start_run(nested=True):
+        with mlflow.start_run(nested=True, run_name=self.trial_name):
             mlflow.log_param('classifier', self.trial_name)
 
             # Log the model dict in pretty fashion.

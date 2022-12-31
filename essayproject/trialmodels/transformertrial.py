@@ -191,7 +191,7 @@ class TransformerTrial:
             self._log_model(validation_results)
 
     def _log_model(self):
-        with mlflow.start_run(nested=True):
+        with mlflow.start_run(nested=True, run_name=self.trial_name):
             mlflow.log_param('classifier', self.trial_name)
             mlflow.log_text(pformat(self.model.config),
                             f'config_{self.trial_name}.txt')
