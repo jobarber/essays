@@ -1,3 +1,4 @@
+import os
 from pprint import pformat
 
 import mlflow
@@ -159,8 +160,8 @@ class TransformerTrial:
             elif metric:
                 metric_values[f'{metric}_{split}'] = metric_value
 
-        print({'metric_values': metric_values,
-               'confusion_matrix': table_print(cm.classes, cm.table)})
+        print({'metric_values': metric_values})
+        print(table_print(cm.classes, cm.table))
 
         metrics = {'metric_values': metric_values,
                    'confusion_matrix': table_print(cm.classes, cm.table)}
@@ -190,20 +191,30 @@ class TransformerTrial:
             validation_results = self.evaluate()
             self._log_model(validation_results)
 
-    def _log_model(self):
+        # Log the model (just once per run due to size limitations).
         with mlflow.start_run(nested=True, run_name=self.trial_name):
-            mlflow.log_param('classifier', self.trial_name)
-            mlflow.log_text(pformat(self.model.config),
-                            f'config_{self.trial_name}.txt')
+            artifact_dir = os.path.join('transformerdata', f'{self.trial_name}.pt')
+            if not os.path.exists(artifact_dir):
+                os.mkdir(artifact_dir)
+
+            self.model.model.save_pretrained(artifact_dir)
+            self.model.tokenizer.save_pretrained(artifact_dir)
+
+            # # Log and register the model.
+            # mlflow.pyfunc.log_model(self.model,
+            #                         registered_model_name=self.trial_name)
+
+    def _log_model(self, validation_results):
+        with mlflow.start_run(nested=True, run_name=self.trial_name):
+            mlflow.log_param('classifier', f'{self.trial_name}_{self._current_epoch}')
+            mlflow.log_text(pformat(self.model.model.config),
+                            f'config_{self.trial_name}_{self._current_epoch}.txt')
 
             # Log the optimizing metric.
             for test in [True, False]:
-                test_eval = self.evaluate(test=test)
-                mlflow.log_metrics(test_eval['metric_values'])
-                mlflow.log_text(test_eval['confusion_matrix'],
-                                f'confusion_matrix_{"test" if test else "train"}_{self.trial_name}.txt')
+                mlflow.log_metrics(validation_results['metric_values'])
+                mlflow.log_text(validation_results['confusion_matrix'],
+                                f'confusion_matrix_{"test" if test else "train"}_'
+                                f'{self.trial_name}_{self._current_epoch}.txt')
 
-            # Log and register the model.
-            mlflow.python.log_model(self.trial_name, 'model',
-                                    registered_model_name=self.trial_name)
         self._current_epoch += 1

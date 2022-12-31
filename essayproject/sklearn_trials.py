@@ -37,8 +37,8 @@ def run_autosklearn_trial(trait=1):
                                  trial_name='baseline_trial',
                                  dataset_name=f'trait{trait}',
                                  ensemble_kwargs={'ensemble_size': 1},
-                                 time_left_for_this_task=60 * 60,
-                                 per_run_time_limit=30)
+                                 time_left_for_this_task=60 * 75,
+                                 per_run_time_limit=60)
         trial.train()
         trial.log()
 
@@ -54,8 +54,8 @@ def run_ensemble_trial(trait=1):
                                  pycm_metrics=['Overall_MCC', 'ACC', 'MCC'],
                                  trial_name='ensemble_trial',
                                  dataset_name=f'trait{trait}',
-                                 time_left_for_this_task=60 * 60,
-                                 per_run_time_limit=30)
+                                 time_left_for_this_task=60 * 75,
+                                 per_run_time_limit=60)
         trial.train()
         trial.log()
 

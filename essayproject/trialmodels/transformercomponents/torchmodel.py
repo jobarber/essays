@@ -1,3 +1,5 @@
+import re
+
 import torch
 import torch.nn as nn
 from transformers import BertModel, BertTokenizer
@@ -79,17 +81,27 @@ class EssayModel(nn.Module):
         """
         essays = [essays] if isinstance(essays, str) else essays
         classification_distributions = []
+        sep_token = self.tokenizer.sep_token
         for essay in essays:
+            # Add the number of sentences as an input
+            num_sentences = len(re.findall(r'(?<![.\d])[.?!](?![.\d])', essay))
+            essay = f'{essay}{sep_token}{sep_token}sentences: {num_sentences}'
+
+            # Now get the model outputs
             tokenized_X = self._tokenize(essay, max_length=64).to(self.device)
             outputs = self.model(**tokenized_X)
             last_hidden_state = outputs.last_hidden_state
-            # Feed only the CLS token output into the pooler
-            pooled = self.pooler(last_hidden_state[:, 0])
+
+            # Feed only the CLS token output into the pooler,
+            # and mean across the entire batch since it represents
+            # one essay.
+            reduced = last_hidden_state[:, 0, :].mean(dim=0)
+            pooled = self.pooler(reduced)
             activated = self.pooler_activation(pooled)
             with_dropout = self.dropout(activated)
             classified = self.classifier(with_dropout)
-            reduced = classified.mean(dim=0)
-            classification_distributions.append(reduced)
+            classification_distributions.append(classified)
+
         return torch.stack(classification_distributions)
 
     def _tokenize(self, text, max_length=64):
