@@ -31,3 +31,4 @@ data/sample_essay_dataset.csv
 data/sample_essay_project_instructions.docx
 data/sample_essay_rubric.docx
 data/test_sample_essay_dataset.csv
+data/sample_essay_dataset_clean.csv
