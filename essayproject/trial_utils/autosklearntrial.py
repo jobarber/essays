@@ -13,7 +13,7 @@ class AutoSklearnTrial:
     """A single automl trial on a single dataset for a specific feature."""
 
     def __init__(self, df_path='data/sample_essay_dataset.csv',
-                 input_columns=['response_text'],
+                 input_column='response_text',
                  target_column='trait1_final_score',
                  task='classification',
                  pycm_metrics=['Overall_MCC', 'ACC', 'MCC'],
@@ -22,9 +22,9 @@ class AutoSklearnTrial:
                  dataset_name='trait_n',
                  **automl_kwargs):
         self.df = pd.read_csv(df_path)
-        self.input_columns = input_columns
+        self.input_column = input_column
         self.target_column = target_column
-        df_split = train_test_split(self.df[input_columns].values.tolist(),
+        df_split = train_test_split(self.df[input_column].values.tolist(),
                                     self.df[target_column].to_list(),
                                     random_state=42,
                                     stratify=self.df[target_column].to_list(),
@@ -59,7 +59,7 @@ class AutoSklearnTrial:
             y_pred = self._discretize(y_pred)
 
         # Calculate the metric
-        cm = ConfusionMatrix(self.y_test, y_pred)
+        cm = ConfusionMatrix(self.y_test if test else self.y_train, y_pred)
         metric_values = {}
         split = 'test' if test else 'train'
         for metric in self.pycm_metrics:

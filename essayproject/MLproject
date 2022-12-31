@@ -3,6 +3,8 @@ name: essays
 python_env: python_env.yaml
 
 entry_points:
+  clean:
+    command: "python cleandata.py"
   exploration:
     command: "python exploration.py"
   sklearn:
