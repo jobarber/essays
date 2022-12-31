@@ -11,7 +11,7 @@ I will give the algorithm/hyperparameter search more time to run tomorrow.
 I have created 4 entry points, which can be run from the command line as follows (once the requisite packages have been installed):
 
 ```
-$ mlflow run essayproject -e clean --env-manager=local  # (finishing up on my side before I push changes)
+$ mlflow run essayproject -e clean --env-manager=local
 $ mlflow run essayproject -e exploration --env-manager=local
 $ mlflow run essayproject -e sklearn --env-manager=local
 $ mlflow run essayproject -e transformers --env-manager=local
