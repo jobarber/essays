@@ -58,7 +58,7 @@ def run_sklearn_trial(trait=1):
 
     # Log the metric values
     with mlflow.start_run(nested=True, run_name=f'trait{trait}_metrics'):
-        mlflow.log_dict(metric_values)
+        mlflow.log_dict(metric_values, 'metrics.json')
 
 
 if __name__ == '__main__':
