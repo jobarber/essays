@@ -1,13 +1,55 @@
-from pprint import pformat
-
 import mlflow
+import numpy as np
 import pandas as pd
 from pycm import ConfusionMatrix
 from pycm.pycm_output import table_print
 from sklearn.linear_model import LogisticRegression
+
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
+
+from transformdata import get_splits
+from trialmodels.utils.erroranalysis import log_sample_explanations
+
+np.random.seed(42)
+
+
+def run_sklearn_trial(trait, create_pipeline_fn):
+    """Run trial using an logistic regression baseline.
+
+    Parameters
+    ----------
+    trait : int or str
+        The trait to use as the target (1 or 2).
+    pipeline : An sklearn.pipeline.Pipeline object or None
+        Use another function to create the pipeline
+        and then feed it into this function.
+    """
+    X_train, X_test, y_train, y_test = get_splits(trait)
+
+    # Log the parameters and models automatically
+    with mlflow.start_run():
+
+        pipeline = create_pipeline_fn(X_train, y_train)
+
+        # Evaluate the classifier
+        y_pred = pipeline.predict(X_test)
+
+        # Log the explanations
+        sample_explanations = log_sample_explanations(pipeline.predict_proba, X_test, y_test)
+        with mlflow.start_run(nested=True, run_name='Explanation'):
+            mlflow.log_dict(sample_explanations, 'explanations.json')
+
+        # Get the metrics
+        cm = ConfusionMatrix(y_test.values, y_pred)
+        metric_values = []
+        for metric in ['Overall_MCC', 'ACC', 'MCC']:
+            metric_value = getattr(cm, metric)
+            metric_values.append([metric, metric_value])
+
+        # Log the metric values
+        with mlflow.start_run(nested=True, run_name=f'trait{trait}_metrics'):
+            mlflow.log_dict(metric_values, 'metrics.json')
 
 
 class LogisticRegressionTrial:
