@@ -1,4 +1,5 @@
 import gensim
+import nltk
 import numpy as np
 import pandas as pd
 from gensim.utils import simple_preprocess
@@ -7,6 +8,8 @@ from nltk import sent_tokenize
 from sklearn.model_selection import train_test_split
 
 np.random.seed(42)
+
+nltk.download('punkt')
 
 def get_oversampled_embeddings(X_train_vectors, y_train, method='smote'):
     """Do oversampling from embedding vectors.
@@ -61,11 +64,10 @@ class Word2VecEmbedder:
             sentences.
         """
         tokenized_corpus = []
-        for text_sample in self.text_samples:
-            sentences = sent_tokenize(text_sample)
+        for text_sample in X:
             # Tokenize the sentences.
-            tokenized_sentences = [simple_preprocess(sent) for sent in sentences]
-            tokenized_corpus.append(tokenized_sentences)
+            tokenized_text = simple_preprocess(text_sample)
+            tokenized_corpus.append(tokenized_text)
         return tokenized_corpus
 
     def fit(self, X):
@@ -81,7 +83,11 @@ class Word2VecEmbedder:
         self.model : A gensim model
         """
         dataset = self._construct_dataset(X)
-        self.model = gensim.models.Word2Vec(dataset, window=5, min_count=2)
+        self.model = gensim.models.Word2Vec(dataset,
+                                            window=5,
+                                            min_count=2,
+                                            workers=4)
+        self.model.save('modeldata/word2vec.kvmodel')
         return self.model
 
     def transform(self, X):

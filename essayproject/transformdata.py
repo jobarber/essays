@@ -27,6 +27,7 @@ def get_splits(trait, lambda_apply_fn=None):
     y_train : np.array
     """
     df = pd.read_csv('data/sample_essay_dataset_clean.csv')
+    df[f'trait{trait}_final_score'] = df[f'trait{trait}_final_score'].astype(int) - 1
 
     # Convert the number of classes if desired.
     if lambda_apply_fn:
@@ -38,11 +39,11 @@ def get_splits(trait, lambda_apply_fn=None):
                                                         random_state=42,
                                                         shuffle=True, stratify=y)
 
-    # Add the generated augementation samples.
+    # Add the generated augmentation samples.
     supplemental_df = pd.read_csv('data/sample_essay_dataset_supplement.csv')
     X_train = pd.concat([X_train, supplemental_df['response_text']],
                         ignore_index=True)
     y_train = pd.concat([y_train, supplemental_df[f'trait{trait}_final_score']],
                         ignore_index=True)
 
-    return X_test, X_train, y_test, y_train
+    return X_train, X_test, y_train, y_test
