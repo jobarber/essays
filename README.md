@@ -52,5 +52,4 @@ There is a general trend for higher scored essays to be longer as well, though n
 
 
 ## Work left to do
-1. I have tests to add as well, which I used with Transformers.
-2. I will make my mlruns folder available somehow in order to share results and model artifacts.
+1. I will make my mlruns folder available somehow in order to share results and model artifacts.
