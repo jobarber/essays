@@ -30,7 +30,8 @@ def create_random_forest_pipeline(X_train, y_train):
                                                           method='smote')
 
     # Select the feature from TFIDF that will most help the model
-    selector = SelectFromModel(estimator=LinearSVC(penalty="l1", dual=False)).fit(X_resampled, y_resampled)
+    selector = SelectFromModel(estimator=LinearSVC(penalty="l1", dual=False, max_iter=3_000)).fit(X_resampled,
+                                                                                                  y_resampled)
     X_train_new = selector.transform(X_resampled)
 
     # Fit the classifier. Random forest is already a bagging classifier.
@@ -46,7 +47,7 @@ def create_random_forest_pipeline(X_train, y_train):
     return pipeline
 
 
-def create_random_forest_pipeline(X_train, y_train):
+def create_gradient_boosting_pipeline(X_train, y_train):
     """Create a specific pipeline for evaluation.
 
     Parameters
@@ -65,13 +66,16 @@ def create_random_forest_pipeline(X_train, y_train):
                                                           method='smote')
 
     # Select the feature from TFIDF that will most help the model
-    selector = SelectFromModel(estimator=LinearSVC(penalty="l1", dual=False)).fit(X_resampled, y_resampled)
+    selector = SelectFromModel(estimator=LinearSVC(penalty="l1", dual=False, max_iter=3_000)).fit(X_resampled,
+                                                                                                  y_resampled)
     X_train_new = selector.transform(X_resampled)
 
     # Fit the classifier. Random forest is already a bagging classifier.
     # But by adding the bagging classifier wrapper around it,
     # I am getting better results.
-    classifier = GradientBoostingClassifier(RandomForestClassifier(),
+    classifier = GradientBoostingClassifier(learning_rate=5e-2,
+                                            n_estimators=200,
+                                            subsample=0.5,
                                             random_state=47)  # 42
     classifier.fit(X_train_new, y_resampled)
     pipeline = Pipeline([('vectorizer', vectorizer),
@@ -82,4 +86,5 @@ def create_random_forest_pipeline(X_train, y_train):
 
 if __name__ == '__main__':
     for trait in [1, 2]:
-        run_sklearn_trial(trait, create_random_forest_pipeline)
+        run_sklearn_trial(trait, create_random_forest_pipeline, explain=True)
+        run_sklearn_trial(trait, create_gradient_boosting_pipeline, explain=True)

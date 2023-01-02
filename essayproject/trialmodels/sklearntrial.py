@@ -14,7 +14,7 @@ from trialmodels.utils.erroranalysis import log_sample_explanations
 np.random.seed(42)
 
 
-def run_sklearn_trial(trait, create_pipeline_fn):
+def run_sklearn_trial(trait, create_pipeline_fn, explain=True):
     """Run trial using an logistic regression baseline.
 
     Parameters
@@ -24,6 +24,9 @@ def run_sklearn_trial(trait, create_pipeline_fn):
     pipeline : An sklearn.pipeline.Pipeline object or None
         Use another function to create the pipeline
         and then feed it into this function.
+    explain : bool
+        Explain and log the features using LIME and
+        mlflow.
     """
     X_train, X_test, y_train, y_test = get_splits(trait)
 
@@ -36,9 +39,10 @@ def run_sklearn_trial(trait, create_pipeline_fn):
         y_pred = pipeline.predict(X_test)
 
         # Log the explanations
-        sample_explanations = log_sample_explanations(pipeline.predict_proba, X_test, y_test)
-        with mlflow.start_run(nested=True, run_name='Explanation'):
-            mlflow.log_dict(sample_explanations, 'explanations.json')
+        if explain:
+            sample_explanations = log_sample_explanations(pipeline.predict_proba, X_test, y_test)
+            with mlflow.start_run(nested=True, run_name='Explanation'):
+                mlflow.log_dict(sample_explanations, 'explanations.json')
 
         # Get the metrics
         cm = ConfusionMatrix(y_test.values, y_pred)
