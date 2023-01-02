@@ -7,6 +7,8 @@ entry_points:
     command: "python cleandata.py"
   exploration:
     command: "python exploration.py"
+  autosklearn:
+    command: "python autosklearn_trials.py"
   sklearn:
     command: "python sklearn_trials.py"
   transformers:

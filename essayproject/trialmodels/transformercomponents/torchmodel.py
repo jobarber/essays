@@ -1,8 +1,14 @@
+import random
 import re
 
+import numpy as np
 import torch
 import torch.nn as nn
-from transformers import BertModel, BertTokenizer
+from transformers import RobertaModel, RobertaTokenizer
+
+torch.manual_seed(39)
+np.random.seed(39)
+random.seed(39)
 
 
 class EssayModel(nn.Module):
@@ -30,7 +36,7 @@ class EssayModel(nn.Module):
     """
 
     def __init__(self,
-                 bert_model='bert-base-uncased',
+                 roberta_model='roberta-base',
                  num_labels=6,
                  num_layers=6,
                  device=torch.device('cuda' if torch.cuda.is_available() else 'cpu')):
@@ -48,17 +54,17 @@ class EssayModel(nn.Module):
         """
         super().__init__()
         self.device = device
-        model = BertModel.from_pretrained(bert_model,
-                                          num_labels=num_labels,
-                                          num_hidden_layers=num_layers)
+        model = RobertaModel.from_pretrained(roberta_model,
+                                             num_labels=num_labels,
+                                             num_hidden_layers=num_layers)
         self.model = model.to(self.device)
-        self.tokenizer = BertTokenizer.from_pretrained(bert_model)
+        self.tokenizer = RobertaTokenizer.from_pretrained(roberta_model)
 
         # Set up the pooling layers. We need to do this ourselves,
         self.pooler = nn.Linear(in_features=self.model.config.hidden_size,
                                 out_features=self.model.config.hidden_size, bias=True)
         self.pooler_activation = nn.Tanh()
-        self.dropout =  nn.Dropout(p=0.1, inplace=False)
+        self.dropout = nn.Dropout(p=0.1, inplace=False)
         self.classifier = nn.Linear(in_features=self.model.config.hidden_size,
                                     out_features=num_labels, bias=True)
 

@@ -26,24 +26,20 @@ class TorchDataset(Dataset):
         df = pd.read_csv(dataset_path).sample(frac=1., random_state=42)
         self.labels = df[target_column].unique()
         self.targets = df[target_column].values
-        train_df, valid_df = self._get_train_test_split(df, input_column, target_column)
+        train_df, valid_df = self._get_train_test_split(df)
         self.df = train_df if train else valid_df
         if train:
             supplement = pd.read_csv('data/sample_essay_dataset_supplement.csv')
             self.df = pd.concat([self.df, supplement], ignore_index=True)
             self.df = self.df.sample(frac=1.)
 
-    def _get_train_test_split(self, df, input_column, target_column):
+    def _get_train_test_split(self, df):
         """Do a repeatable stratified random sample split.
 
         Parameters
         ----------
         df : pd.DataFrame
             The DataFrame with train and validation data in it.
-        input_column : str
-            The name of the column holding input text.
-        target_column : str
-            The name of the column holding the target labels.
 
         Returns
         -------
@@ -56,7 +52,7 @@ class TorchDataset(Dataset):
 
         # Be sure that there is no data leakage.
         merged_df = df.merge(train_df.drop_duplicates(),
-                             on=[input_column, target_column],
+                             on=[self.input_column, self.target_column],
                              how='left', indicator=True)
         # Filter out the duplicates
         valid_df = merged_df[merged_df['_merge'] == 'left_only']
@@ -78,7 +74,7 @@ class TorchDataset(Dataset):
         """
         input_text = self.df.iloc[item][self.input_column]
         target = self.df.iloc[item][self.target_column]
-        return input_text, int(target - 1)
+        return input_text, int(target) - 1
 
     def __len__(self):
         return len(self.df)

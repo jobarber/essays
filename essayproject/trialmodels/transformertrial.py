@@ -1,4 +1,5 @@
 import os
+import random
 from pprint import pformat
 
 import mlflow
@@ -9,12 +10,15 @@ from pycm import ConfusionMatrix
 from pycm.pycm_output import table_print
 from sklearn.utils.class_weight import compute_class_weight
 from torch import optim
+from torch.optim.lr_scheduler import MultiStepLR
 from torch.utils.data import DataLoader
 
 from trialmodels.transformercomponents.torchmodel import EssayModel
 from trialmodels.transformercomponents.torchdataset import TorchDataset
 
-torch.manual_seed(42)
+torch.manual_seed(40)
+np.random.seed(40)
+random.seed(40)
 
 
 class TransformerTrial:
@@ -24,7 +28,7 @@ class TransformerTrial:
                  dataset=TorchDataset,
                  input_column='response_text',
                  target_column='trait1_final_score',
-                 bert_model='bert-base-uncased',
+                 roberta_model='roberta-base',
                  num_layers=12,
                  optimizer_name='AdamW',
                  criterion_name='CrossEntropyLoss',
@@ -93,7 +97,7 @@ class TransformerTrial:
                                            )
 
         num_labels = len(self.train_dataset.labels)
-        model = EssayModel(bert_model=bert_model,
+        model = EssayModel(roberta_model=roberta_model,
                            num_labels=num_labels,
                            num_layers=num_layers,
                            device=device)
@@ -105,6 +109,8 @@ class TransformerTrial:
         weights = compute_class_weight(class_weight='balanced',
                                        classes=np.unique(self.train_dataset.targets),
                                        y=self.train_dataset.targets)
+        print('weights for criterion:', weights)
+        print('length of train dataset:', len(self.train_dataset.targets))
         self.train_criterion = criterion(weight=torch.tensor(weights).float().to(self.device))
         self.valid_criterion = criterion()
         self.epochs = epochs
@@ -186,10 +192,12 @@ class TransformerTrial:
                   f' Loss: {loss.item()}')
 
     def train(self):
+        scheduler = MultiStepLR(self.optimizer, milestones=[1, 2, 3, 4], gamma=0.35, verbose=True)
         for epoch in range(self.epochs):
             self._train_epoch()
             validation_results = self.evaluate()
             self._log_model(validation_results)
+            scheduler.step()
 
         # Log the model (just once per run due to size limitations).
         with mlflow.start_run(nested=True, run_name=self.trial_name):
