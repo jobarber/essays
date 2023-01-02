@@ -4,8 +4,6 @@ import numpy as np
 import pandas as pd
 from gensim.utils import simple_preprocess
 from imblearn.over_sampling import ADASYN, RandomOverSampler, SMOTE
-from nltk import sent_tokenize
-from sklearn.model_selection import train_test_split
 
 np.random.seed(42)
 

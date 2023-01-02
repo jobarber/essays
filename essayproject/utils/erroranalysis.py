@@ -1,5 +1,3 @@
-import json
-
 import mlflow
 import numpy as np
 from lime.lime_text import LimeTextExplainer
