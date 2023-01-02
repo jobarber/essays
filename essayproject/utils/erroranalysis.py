@@ -40,7 +40,6 @@ def log_sample_explanations(predict_fn, X, y):
         data['y_true'] = target
         data['explanation'] = explanation.as_list()
         bin.append(data)
-        sample_explanations.append(bin)
 
     with mlflow.start_run(nested=True, run_name='Explanation'):
         mlflow.log_dict(sample_explanations, 'explanations.json')
