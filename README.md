@@ -4,16 +4,51 @@ The goal of this project is to train 2 models, 1 for each trait, in a given grou
 solution that tracks, packages, and manages the models made, which are important for machine learning systems.
 These models can also be run on other traits without too many modifications.
 
-I currently have at least 2 models but have not finished exploring the ML algorithms using auto-sklearn.
-I will give the algorithm/hyperparameter search more time to run tomorrow.
+I currently have several models (in a variety of formats). 
+
+## Current results
+The dataset has a lot of overlap between the language that appears for scores 3 and 4--for both traits.
+There could be a number of reasons for this. Perhaps annotators/graders did not consistently differentiate
+between the two scores. I tried making this a binary problem to see if that would help (scores 1-3 on the one
+hand and scores 4-6 for trait 1 or just 4 by itself for trait 2), but it helped only marginally.
+
+I have tried Transformer models, sklearn models, and a number of other models through AWS. None of them 
+really break 80% accuracy. I mention accuracy mainly because business stakeholders speak this language,
+but the dataset is highly imbalanced and thus needs a better metric. The optimizing metric I chose is Matthews
+correlation coefficient (MCC). Unlike the F1-score and other measures, the MCC is symetric and essentially
+measures the correlation (in a manner similar to the Pearson correlation coefficient).
+
+There is also a fair bit of noise in the data, which I have questions about. A number of tokens beginning
+with an @ sign are scattered throughout the essays.
+
+Here are the current results:
+
+Overall_MCC_test	0.432
+| Trait | Model | Ensemble? | Overall MCC Valid. Score | Train Loss | Valid. Loss |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
+| Trait 1 | lda  | No | 0.432  | 0.284340 | 0.324486 |
+| Trait 2 | lda  | No | 0.409  | 0.290339 | 0.330013 |
+| Trait 1 | lda/mlp | Yes | 0.421 | (multiple) | (multiple) |
+| Trait 2 | lda/mlp/gb/knn | Yes | 0.427  | (multiple) | (multiple) |
 
 ## Entry points
-I have created 4 entry points, which can be run from the command line as follows (once the requisite packages have been installed):
+I have created 4 entry points, which can be run from the command line.
+
+First, activate the virtual environment and install the `requirements.txt`.
+
+```
+$ source /home/ubuntu/.virtualenvs/<company>/bin/activate
+$ pip install -r requirements.txt
+```
+
+Then you can run any of the commands in the MLProject file. For example,
+you can run any of these.
 
 ```
 $ mlflow run essayproject -e clean --env-manager=local
 $ mlflow run essayproject -e exploration --env-manager=local
 $ mlflow run essayproject -e sklearn --env-manager=local
+$ mlflow run essayproject -e autosklearn --env-manager=local
 $ mlflow run essayproject -e transformers --env-manager=local
 ```
 
@@ -29,7 +64,7 @@ Or UI results can be served from a remote server:
 $ mlflow ui -h 0.0.0.0:5000
 ```
 
-## Some initial analysis (more to come)
+## Some initial analysis
 Some trends appear in the data that could potentially be leveraged for a machine learning model. For example, you can see in the 
 image below that the highest scored essays have fewer noun subjects and more punctuation than other essays for trait 1.
 
