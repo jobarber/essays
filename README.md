@@ -29,8 +29,8 @@ Here are the current results:
 Overall_MCC_test	0.432
 | Trait | Model | Ensemble? | Overall MCC Valid. Score | Train Loss | Valid. Loss |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| Trait 1 | lda  | No | 0.432  | 0.284340 | 0.324486 |
-| Trait 2 | lda  | No | 0.409  | 0.290339 | 0.330013 |
+| Trait 1 | lda  | No | 0.432  | 0.247843 | 0.303251 |
+| Trait 2 | lda  | No | 0.443  | 0.290339 | 0.330013 |
 | Trait 1 | lda/mlp | Yes | 0.421 | (multiple) | (multiple) |
 | Trait 2 | lda/mlp/gb/knn | Yes | 0.427  | (multiple) | (multiple) |
 
