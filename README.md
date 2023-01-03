@@ -34,7 +34,7 @@ Overall_MCC_test	0.432
 | Trait | Model | Ensemble? | Overall MCC Valid. Score | Train Loss | Valid. Loss |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | Trait 1 | RoBERTa  | No | 0.668  | 0.537 | 0.393 |
-| Trait 2 | RoBERTa  | No | .734 | .403 | .278 |
+| Trait 2 | RoBERTa  | No | 0.734 | 0.403 | 0.278 |
 | Trait 1 | lda  | No | 0.432  | 0.247843 | 0.303251 |
 | Trait 2 | lda  | No | 0.443  | 0.290339 | 0.330013 |
 | Trait 1 | lda/mlp | Yes | 0.421 | (multiple) | (multiple) |
