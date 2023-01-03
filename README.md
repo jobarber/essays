@@ -10,7 +10,10 @@ I currently have several models (in a variety of formats).
 The dataset has a lot of overlap between the language that appears for scores 3 and 4--for both traits.
 There could be a number of reasons for this. Perhaps annotators/graders did not consistently differentiate
 between the two scores. I tried making this a binary problem to see if that would help (scores 1-3 on the one
-hand and scores 4-6 for trait 1 or just 4 by itself for trait 2), but it helped only marginally.
+hand and scores 4-6 for trait 1 or just 4 by itself for trait 2), but it helped only marginally. Here is a typical 
+confusion matrix, where you can see the confusion in the center of the matrix.
+
+<img width="469" alt="Screen Shot 2023-01-02 at 9 55 43 PM" src="https://user-images.githubusercontent.com/10589631/210304243-456e9a45-e9a9-42ea-a27e-4ddf8fe3ee4a.png">
 
 I have tried Transformer models, sklearn models, and a number of other models through AWS. None of them 
 really break 80% accuracy. I mention accuracy mainly because business stakeholders speak this language,
