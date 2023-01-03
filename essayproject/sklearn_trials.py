@@ -30,9 +30,13 @@ def create_random_forest_pipeline(X_train, y_train):
                                                           method='smote')
 
     # Select the feature from TFIDF that will most help the model
-    selector = SelectFromModel(estimator=LinearSVC(penalty="l1", dual=False, max_iter=3_000)).fit(X_resampled,
-                                                                                                  y_resampled)
+    selector = SelectFromModel(estimator=LinearSVC(penalty="l1",
+                                                   dual=False,
+                                                   max_iter=3_000,
+                                                   random_state=42)).fit(X_resampled,
+                                                                         y_resampled)
     X_train_new = selector.transform(X_resampled)
+    print(f'Selected {X_train_new.shape} features from {X_resampled.shape}.')
 
     # Fit the classifier. Random forest is already a bagging classifier.
     # But by adding the bagging classifier wrapper around it,
@@ -62,20 +66,26 @@ def create_gradient_boosting_pipeline(X_train, y_train):
     # Perform TFIDF vectorization followed by random oversampling
     vectorizer = TfidfVectorizer(lowercase=False, ngram_range=(1, 2), stop_words=None)  # 1, 2 and 1, 3
     vectorized_X_train = vectorizer.fit_transform(X_train)
-    X_resampled, y_resampled = get_oversampled_embeddings(vectorized_X_train, y_train,
+    X_resampled, y_resampled = get_oversampled_embeddings(vectorized_X_train,
+                                                          y_train,
                                                           method='smote')
 
     # Select the feature from TFIDF that will most help the model
-    selector = SelectFromModel(estimator=LinearSVC(penalty="l1", dual=False, max_iter=3_000)).fit(X_resampled,
-                                                                                                  y_resampled)
+    selector = SelectFromModel(estimator=LinearSVC(penalty="l1",
+                                                   dual=False,
+                                                   max_iter=3_000,
+                                                   random_state=42)).fit(X_resampled,
+                                                                        y_resampled)
     X_train_new = selector.transform(X_resampled)
+    print(f'Selected {X_train_new.shape} features from {X_resampled.shape}.')
 
     # Fit the classifier. Random forest is already a bagging classifier.
     # But by adding the bagging classifier wrapper around it,
     # I am getting better results.
     classifier = GradientBoostingClassifier(learning_rate=5e-2,
-                                            n_estimators=200,
+                                            n_estimators=150,
                                             subsample=0.5,
+                                            max_features=500,
                                             random_state=47)  # 42
     classifier.fit(X_train_new, y_resampled)
     pipeline = Pipeline([('vectorizer', vectorizer),
