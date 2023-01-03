@@ -84,7 +84,3 @@ There is a general trend for higher scored essays to be longer as well, though n
 
 ![token_counts_trait_1](https://user-images.githubusercontent.com/10589631/210122868-85524ace-8c30-4005-bbc0-0c0035396ae0.png)
 ![token_counts_trait_2](https://user-images.githubusercontent.com/10589631/210122869-e617d8cf-f936-4529-a313-2b079d0c8aee.png)
-
-
-## Work left to do
-1. I will make my mlruns folder available somehow in order to share results and model artifacts.
