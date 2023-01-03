@@ -13,7 +13,7 @@ between the two scores. I tried making this a binary problem to see if that woul
 hand and scores 4-6 for trait 1 or just 4 by itself for trait 2), but it helped only marginally. Here is a typical 
 confusion matrix, where you can see the confusion in the center of the matrix.
 
-<img width="469" alt="Screen Shot 2023-01-02 at 9 55 43 PM" src="https://user-images.githubusercontent.com/10589631/210304243-456e9a45-e9a9-42ea-a27e-4ddf8fe3ee4a.png">
+<img width="502" alt="Screen Shot 2023-01-03 at 7 39 24 AM" src="https://user-images.githubusercontent.com/10589631/210378914-1f312cce-9ee1-40c5-a36f-11c947e197d8.png">
 
 I have tried Transformer models, sklearn models, and a number of other models through AWS. None of them 
 really break 80% accuracy. I mention accuracy mainly because business stakeholders speak this language,
