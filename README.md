@@ -11,10 +11,11 @@ The dataset has a lot of overlap between the language that appears for scores 3 
 There could be a number of reasons for this. Perhaps annotators/graders did not consistently differentiate
 between the two scores, and the two scores should be collpsed into one score. I tried making this a binary 
 problem to see if that would help (scores 1-3 on the one
-hand and scores 4-6 for trait 1 or just 4 by itself for trait 2), but it helped only marginally. Here is a typical 
-confusion matrix, where you can see the confusion in the center of the matrix.
+hand and scores 4-6 for trait 1 or just 4 by itself for trait 2), but it helped only marginally. Here is the
+current confusion matrix for the top scoring RoBERTa model on trait 1.
 
-<img width="487" alt="Screen Shot 2023-01-03 at 7 44 41 AM" src="https://user-images.githubusercontent.com/10589631/210379910-652ee804-0b4c-420b-b62c-37ab3d47bde1.png">
+<img width="494" alt="Screen Shot 2023-01-03 at 7 53 06 AM" src="https://user-images.githubusercontent.com/10589631/210381624-7a4c2d51-1539-4c57-b4c3-f58255613004.png">
+
 
 I have tried Transformer models, sklearn models, and a number of other models through AWS. The RoBERTa model
 does best so far. The dataset is highly imbalanced, and the scores the most common
