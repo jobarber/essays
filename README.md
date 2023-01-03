@@ -9,17 +9,18 @@ I currently have several models (in a variety of formats).
 ## Current results
 The dataset has a lot of overlap between the language that appears for scores 3 and 4--for both traits.
 There could be a number of reasons for this. Perhaps annotators/graders did not consistently differentiate
-between the two scores. I tried making this a binary problem to see if that would help (scores 1-3 on the one
+between the two scores, and the two scores should be collpsed into one score. I tried making this a binary 
+problem to see if that would help (scores 1-3 on the one
 hand and scores 4-6 for trait 1 or just 4 by itself for trait 2), but it helped only marginally. Here is a typical 
 confusion matrix, where you can see the confusion in the center of the matrix.
 
 <img width="502" alt="Screen Shot 2023-01-03 at 7 39 24 AM" src="https://user-images.githubusercontent.com/10589631/210378914-1f312cce-9ee1-40c5-a36f-11c947e197d8.png">
 
 I have tried Transformer models, sklearn models, and a number of other models through AWS. None of them 
-really break 80% accuracy. I mention accuracy mainly because business stakeholders speak this language,
-but the dataset is highly imbalanced and thus needs a better metric. The optimizing metric I chose is Matthews
-correlation coefficient (MCC). Unlike the F1-score and other measures, the MCC is symetric and essentially
-measures the correlation (in a manner similar to the Pearson correlation coefficient).
+solve the problem really well so far. The dataset is highly imbalanced, and the scores the most common
+scores are 3 and 4--the scores with language overlap--for both classes. The optimizing metric I chose is Matthews
+correlation coefficient (MCC). Unlike the F1-score and other measures, the MCC is symmetric and essentially
+measures the correlation between classes without be impacted by class imbalances.
 
 There is also a fair bit of noise in the data, which I have questions about. A number of tokens beginning
 with an @ sign are scattered throughout the essays.
@@ -29,7 +30,7 @@ Here are the current results:
 Overall_MCC_test	0.432
 | Trait | Model | Ensemble? | Overall MCC Valid. Score | Train Loss | Valid. Loss |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| Trait 1 | RoBERTa  | No | 0.606  | 0.511 | 0.625 |
+| Trait 1 | RoBERTa  | No | 0.624  | 0.511 | 0.625 |
 | Trait 1 | lda  | No | 0.432  | 0.247843 | 0.303251 |
 | Trait 2 | lda  | No | 0.443  | 0.290339 | 0.330013 |
 | Trait 1 | lda/mlp | Yes | 0.421 | (multiple) | (multiple) |
