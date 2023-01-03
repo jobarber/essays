@@ -34,6 +34,8 @@ Overall_MCC_test	0.432
 | Trait 1 | lda/mlp | Yes | 0.421 | (multiple) | (multiple) |
 | Trait 2 | lda/mlp/gb/knn | Yes | 0.427  | (multiple) | (multiple) |
 
+The models are too big to upload to GitHub, but I can look for another way to share them if desired.
+
 ## Entry points
 I have created 4 entry points, which can be run from the command line.
 
