@@ -192,7 +192,7 @@ class TransformerTrial:
                   f' Loss: {loss.item()}')
 
     def train(self):
-        scheduler = MultiStepLR(self.optimizer, milestones=[1, 2, 3, 4], gamma=0.35, verbose=True)
+        scheduler = MultiStepLR(self.optimizer, milestones=[1, 3, 5, 7], gamma=0.4, verbose=True)
         for epoch in range(self.epochs):
             self._train_epoch()
             validation_results = self.evaluate()
