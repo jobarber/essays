@@ -38,16 +38,16 @@ Overall_MCC_test	0.432
 | Trait 1 | lda/mlp | Yes | 0.421 | (multiple) | (multiple) |
 | Trait 2 | lda/mlp/gb/knn | Yes | 0.427  | (multiple) | (multiple) |
 
-Accuracies for RoBERTa on the eval dataset:
+Per-class accuracies for RoBERTa on the eval dataset:
 
-| Trait 1 | Accuracy |
-| --- | --- |
-| Class 1 | 1.0 |
-| Class 2 | .989 |
-| Class 3 | .801 |
-| Class 4 | .800 |
-| Class 5 | 1.0 |
-| Class 6 | 1.0 |
+| Score | Trait 1 Accuracy | Trait 2 Accuracy (coming soon) |
+| --- | --- | --- |
+| 1 | 1.0 |  |
+| 2 | .989 |  |
+| 3 | .801 |  |
+| 4 | .800 |  |
+| 5 | 1.0 |  |
+| 6 | 1.0 |  |
 
 The models are too big to upload to GitHub, but I can look for another way to share them if desired.
 
