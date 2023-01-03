@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 from pycm import ConfusionMatrix
 from pycm.pycm_output import table_print
+from sklearn.base import TransformerMixin
+from sklearn.ensemble import GradientBoostingClassifier, BaggingClassifier
 from sklearn.linear_model import LogisticRegression
 
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -31,7 +33,7 @@ def run_sklearn_trial(trait, create_pipeline_fn, explain=True):
     X_train, X_test, y_train, y_test = get_splits(trait)
 
     # Log the parameters and models automatically
-    with mlflow.start_run():
+    with mlflow.start_run(run_name=f'{trait}_{create_pipeline_fn.__name__}'):
 
         pipeline = create_pipeline_fn(X_train, y_train)
 
@@ -51,9 +53,10 @@ def run_sklearn_trial(trait, create_pipeline_fn, explain=True):
             metric_value = getattr(cm, metric)
             metric_values.append([metric, metric_value])
 
-        # Log the metric values
+        # Log the metric values and model
         with mlflow.start_run(nested=True, run_name=f'trait{trait}_metrics'):
             mlflow.log_dict(metric_values, 'metrics.json')
+            mlflow.sklearn.log_model(pipeline, 'trait{trait}_{create_pipeline_fn.__name__}_model.pkl')
 
 
 class LogisticRegressionTrial:
@@ -135,3 +138,17 @@ class LogisticRegressionTrial:
             # Log and register the model.
             mlflow.sklearn.log_model(self.pipeline, 'logistic regression_model',
                                      registered_model_name=self.trial_name)
+
+
+class GradientBoostingTransformer(GradientBoostingClassifier, TransformerMixin):
+    """Wrapper for using GradientBoostingClassifier as a transformer."""
+
+    def transform(self, X):
+        return self.predict_proba(X)
+
+
+class BaggingTransformer(BaggingClassifier, TransformerMixin):
+    """Wrapper for using BaggingClassifier as a transformer."""
+
+    def transform(self, X):
+        return self.predict_proba(X)

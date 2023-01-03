@@ -89,7 +89,7 @@ class AutoSklearnTrial:
         """Conduct trials and create sklearn models."""
 
         # Set the defaults.
-        automl_kwargs = dict(time_left_for_this_task=60 * 5,
+        automl_kwargs = dict(time_left_for_this_task=60 * 10,
                              per_run_time_limit=30,
                              n_jobs=-1,
                              resampling_strategy="cv",
@@ -126,7 +126,7 @@ class AutoSklearnTrial:
                                 f'confusion_matrix_{"test" if test else "train"}_{self.trial_name}.txt')
 
             # Log and register the model.
-            mlflow.sklearn.log_model(self.trial_name, 'model',
+            mlflow.sklearn.log_model(self.automl, 'model.pkl',
                                      registered_model_name=self.trial_name)
 
     def _discretize(self, y_pred):
