@@ -42,7 +42,7 @@ Overall_MCC_test	0.432
 
 Per-class accuracies for RoBERTa on the eval dataset:
 
-| Score | Trait 1 Accuracy | Trait 2 Accuracy (coming soon) |
+| Score | Trait 1 Accuracy | Trait 2 Accuracy |
 | --- | --- | --- |
 | 1 | 1.0 | 0.997 |
 | 2 | .989 | 0.989 |
