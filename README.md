@@ -12,7 +12,8 @@ There could be a number of reasons for this. For example, perhaps annotators/gra
 between the two scores, and the two scores should be collapsed into one score. I tried making this a binary 
 problem to see if that would help (scores 1-3 on the one
 hand and scores 4-6 for trait 1 or just 4 by itself for trait 2), but it helped only marginally. Here is the
-current confusion matrix for the top scoring RoBERTa model on trait 1.
+current confusion matrix for the top scoring RoBERTa model on trait 1. Note that the scores in this image are
+index scores and are thus 1 lower than the corresponding score label.
 
 <img width="494" alt="Screen Shot 2023-01-03 at 7 53 06 AM" src="https://user-images.githubusercontent.com/10589631/210381624-7a4c2d51-1539-4c57-b4c3-f58255613004.png">
 
