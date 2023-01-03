@@ -16,8 +16,8 @@ confusion matrix, where you can see the confusion in the center of the matrix.
 
 <img width="487" alt="Screen Shot 2023-01-03 at 7 44 41 AM" src="https://user-images.githubusercontent.com/10589631/210379910-652ee804-0b4c-420b-b62c-37ab3d47bde1.png">
 
-I have tried Transformer models, sklearn models, and a number of other models through AWS. None of them 
-solve the problem really well so far. The dataset is highly imbalanced, and the scores the most common
+I have tried Transformer models, sklearn models, and a number of other models through AWS. The RoBERTa model
+does best so far. The dataset is highly imbalanced, and the scores the most common
 scores are 3 and 4--the scores with language overlap--for both classes. The optimizing metric I chose is Matthews
 correlation coefficient (MCC). Unlike the F1-score and other measures, the MCC is symmetric and essentially
 measures the correlation between classes without be impacted by class imbalances.
@@ -30,11 +30,22 @@ Here are the current results:
 Overall_MCC_test	0.432
 | Trait | Model | Ensemble? | Overall MCC Valid. Score | Train Loss | Valid. Loss |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| Trait 1 | RoBERTa  | No | 0.624  | 0.511 | 0.625 |
+| Trait 1 | RoBERTa  | No | 0.668  | 0.537 | 0.393 |
 | Trait 1 | lda  | No | 0.432  | 0.247843 | 0.303251 |
 | Trait 2 | lda  | No | 0.443  | 0.290339 | 0.330013 |
 | Trait 1 | lda/mlp | Yes | 0.421 | (multiple) | (multiple) |
 | Trait 2 | lda/mlp/gb/knn | Yes | 0.427  | (multiple) | (multiple) |
+
+Accuracies for RoBERTa on the eval dataset:
+
+| Trait 1 | Accuracy |
+| --- | --- |
+| Class 1 | 1.0 |
+| Class 2 | .989 |
+| Class 3 | .801 |
+| Class 4 | .800 |
+| Class 5 | 1.0 |
+| Class 6 | 1.0 |
 
 The models are too big to upload to GitHub, but I can look for another way to share them if desired.
 
