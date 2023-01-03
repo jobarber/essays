@@ -43,7 +43,7 @@ Here are the current results:
 | Trait 2 | lda/mlp/gb/knn | Yes | 0.427  | (multiple) | (multiple) |
 
 Per-class accuracies for RoBERTa on the eval dataset. (The model is quite fast for a Transformer
-due to some modifications that I have made. It cuold be made even faster for deployment.)
+due to some modifications that I have made. It could be made even faster for deployment.)
 
 | Score | Trait 1 Accuracy | Trait 2 Accuracy |
 | --- | --- | --- |
