@@ -8,8 +8,8 @@ I currently have several models (in a variety of formats).
 
 ## Current results
 The dataset has a lot of overlap between the language that appears for scores 3 and 4--for both traits.
-There could be a number of reasons for this. Perhaps annotators/graders did not consistently differentiate
-between the two scores, and the two scores should be collpsed into one score. I tried making this a binary 
+There could be a number of reasons for this. For example, perhaps annotators/graders did not consistently differentiate
+between the two scores, and the two scores should be collapsed into one score. I tried making this a binary 
 problem to see if that would help (scores 1-3 on the one
 hand and scores 4-6 for trait 1 or just 4 by itself for trait 2), but it helped only marginally. Here is the
 current confusion matrix for the top scoring RoBERTa model on trait 1.
@@ -17,7 +17,8 @@ current confusion matrix for the top scoring RoBERTa model on trait 1.
 <img width="494" alt="Screen Shot 2023-01-03 at 7 53 06 AM" src="https://user-images.githubusercontent.com/10589631/210381624-7a4c2d51-1539-4c57-b4c3-f58255613004.png">
 
 
-I have tried Transformer models, sklearn models, and a number of other models through AWS. The RoBERTa model
+I have tried Transformer models, sklearn models, and a number of other models through AWS. I also generated additional
+samples for essay scores with really low counts. (I uploaded the generated samples to this repo.) The RoBERTa model
 does best so far. The dataset is highly imbalanced, and the scores the most common
 scores are 3 and 4--the scores with language overlap--for both classes. The optimizing metric I chose is Matthews
 correlation coefficient (MCC). Unlike the F1-score and other measures, the MCC is symmetric and essentially
