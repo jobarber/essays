@@ -41,7 +41,7 @@ def run_ensemble_trial(trait=1):
 
 
 if __name__ == '__main__':
-    for trait in [2]:
+    for trait in [1, 2]:
         with mlflow.start_run(run_name=f'autosklearn_trait{trait}'):
             run_autosklearn_trial(trait=trait)
             run_ensemble_trial(trait=trait)

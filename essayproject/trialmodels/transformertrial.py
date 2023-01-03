@@ -16,9 +16,9 @@ from torch.utils.data import DataLoader
 from trialmodels.transformercomponents.torchmodel import EssayModel
 from trialmodels.transformercomponents.torchdataset import TorchDataset
 
-torch.manual_seed(40)
-np.random.seed(40)
-random.seed(40)
+torch.manual_seed(41)
+np.random.seed(42)
+random.seed(43)
 
 
 class TransformerTrial:
