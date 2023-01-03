@@ -33,7 +33,6 @@ with an @ sign are scattered throughout the essays.
 
 Here are the current results:
 
-Overall_MCC_test	0.432
 | Trait | Model | Ensemble? | Overall MCC Valid. Score | Train Loss | Valid. Loss |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | Trait 1 | RoBERTa  | No | 0.668  | 0.537 | 0.393 |
