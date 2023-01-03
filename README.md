@@ -34,7 +34,7 @@ Overall_MCC_test	0.432
 | Trait | Model | Ensemble? | Overall MCC Valid. Score | Train Loss | Valid. Loss |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | Trait 1 | RoBERTa  | No | 0.668  | 0.537 | 0.393 |
-| Trait 2 | RoBERTa  | No | (coming soon)  |  |  |
+| Trait 2 | RoBERTa  | No | .734 | .403 | .278 |
 | Trait 1 | lda  | No | 0.432  | 0.247843 | 0.303251 |
 | Trait 2 | lda  | No | 0.443  | 0.290339 | 0.330013 |
 | Trait 1 | lda/mlp | Yes | 0.421 | (multiple) | (multiple) |
@@ -44,12 +44,12 @@ Per-class accuracies for RoBERTa on the eval dataset:
 
 | Score | Trait 1 Accuracy | Trait 2 Accuracy (coming soon) |
 | --- | --- | --- |
-| 1 | 1.0 |  |
-| 2 | .989 |  |
-| 3 | .801 |  |
-| 4 | .800 |  |
-| 5 | 1.0 |  |
-| 6 | 1.0 |  |
+| 1 | 1.0 | 0.997 |
+| 2 | .989 | 0.989 |
+| 3 | .801 | 0.836 |
+| 4 | .800 | 0.844 |
+| 5 | 1.0 | - |
+| 6 | 1.0 | - |
 
 The models are too big to upload to GitHub, but I can look for another way to share them if desired.
 
