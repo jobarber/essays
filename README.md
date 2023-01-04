@@ -23,9 +23,9 @@ Trait 2
 
 I have tried Transformer models, sklearn models, and a number of other models through AWS. I also generated additional
 samples for essay scores with really low counts. (I uploaded the generated samples to this repo.) The RoBERTa model
-does best so far. The dataset is highly imbalanced, and the scores the most common
+does best so far. The dataset is highly imbalanced, and the most common
 scores are 3 and 4--the scores with language overlap--for both classes. The optimizing metric I chose is Matthews
-correlation coefficient (MCC). Unlike the F1-score and other measures, the MCC is symmetric and essentially
+correlation coefficient (MCC). Unlike the F1-score and similar measures, the MCC is symmetric and essentially
 measures the correlation between classes without be impacted by class imbalances.
 
 There is also a fair bit of noise in the data, which I have questions about. A number of tokens beginning
@@ -66,8 +66,7 @@ $ source /home/ubuntu/.virtualenvs/<company>/bin/activate
 $ pip install -r requirements.txt
 ```
 
-Then you can run any of the commands in the MLProject file. For example,
-you can run any of these.
+Then you can run any of the commands in the MLProject file:
 
 ```
 $ mlflow run essayproject -e clean --env-manager=local
