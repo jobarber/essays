@@ -11,18 +11,21 @@ The dataset has a lot of overlap between the language that appears for scores 3 
 There could be a number of reasons for this. For example, perhaps annotators/graders did not consistently differentiate
 between the two scores, and the two scores should be collapsed into one score. I tried making this a binary 
 problem to see if that would help (scores 1-3 on the one
-hand and scores 4-6 for trait 1 or just 4 by itself for trait 2), but it helped only marginally. Here is the
-current confusion matrix for the top scoring RoBERTa model on trait 1. Note that the scores in this image are
+hand and scores 4-6 for trait 1 or just 4 by itself for trait 2), but it helped only marginally. Here are the
+current confusion matrices for the top scoring RoBERTa model on traits 1 and 2. Note that the scores in these images are
 index scores and are thus 1 lower than the corresponding score label.
 
+Trait 1
 <img width="494" alt="Screen Shot 2023-01-03 at 7 53 06 AM" src="https://user-images.githubusercontent.com/10589631/210381624-7a4c2d51-1539-4c57-b4c3-f58255613004.png">
 
+Trait 2
+<img width="358" alt="Screen Shot 2023-01-03 at 8 40 10 AM" src="https://user-images.githubusercontent.com/10589631/210390676-ce463e1d-fb49-4084-b2c9-da97455b955f.png">
 
 I have tried Transformer models, sklearn models, and a number of other models through AWS. I also generated additional
 samples for essay scores with really low counts. (I uploaded the generated samples to this repo.) The RoBERTa model
-does best so far. The dataset is highly imbalanced, and the scores the most common
+does best so far. The dataset is highly imbalanced, and the most common
 scores are 3 and 4--the scores with language overlap--for both classes. The optimizing metric I chose is Matthews
-correlation coefficient (MCC). Unlike the F1-score and other measures, the MCC is symmetric and essentially
+correlation coefficient (MCC). Unlike the F1-score and similar measures, the MCC is symmetric and essentially
 measures the correlation between classes without be impacted by class imbalances.
 
 There is also a fair bit of noise in the data, which I have questions about. A number of tokens beginning
@@ -30,25 +33,26 @@ with an @ sign are scattered throughout the essays.
 
 Here are the current results:
 
-Overall_MCC_test	0.432
 | Trait | Model | Ensemble? | Overall MCC Valid. Score | Train Loss | Valid. Loss |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | Trait 1 | RoBERTa  | No | 0.668  | 0.537 | 0.393 |
+| Trait 2 | RoBERTa  | No | 0.773 | 0.377 | 0.175 |
 | Trait 1 | lda  | No | 0.432  | 0.247843 | 0.303251 |
 | Trait 2 | lda  | No | 0.443  | 0.290339 | 0.330013 |
 | Trait 1 | lda/mlp | Yes | 0.421 | (multiple) | (multiple) |
 | Trait 2 | lda/mlp/gb/knn | Yes | 0.427  | (multiple) | (multiple) |
 
-Per-class accuracies for RoBERTa on the eval dataset:
+Per-class accuracies for RoBERTa on the eval dataset. (The model is quite fast for a Transformer
+due to some modifications that I have made. It could be made even faster for deployment.)
 
-| Score | Trait 1 Accuracy | Trait 2 Accuracy (coming soon) |
+| Score | Trait 1 Accuracy | Trait 2 Accuracy |
 | --- | --- | --- |
-| 1 | 1.0 |  |
-| 2 | .989 |  |
-| 3 | .801 |  |
-| 4 | .800 |  |
-| 5 | 1.0 |  |
-| 6 | 1.0 |  |
+| 1 | 1.0 | 1.0 |
+| 2 | .989 | 1.0 |
+| 3 | .801 | 0.853 |
+| 4 | .800 | 0.853 |
+| 5 | 1.0 | - |
+| 6 | 1.0 | - |
 
 The models are too big to upload to GitHub, but I can look for another way to share them if desired.
 
@@ -62,8 +66,7 @@ $ source /home/ubuntu/.virtualenvs/<company>/bin/activate
 $ pip install -r requirements.txt
 ```
 
-Then you can run any of the commands in the MLProject file. For example,
-you can run any of these.
+Then you can run any of the commands in the MLProject file:
 
 ```
 $ mlflow run essayproject -e clean --env-manager=local
