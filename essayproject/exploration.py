@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import mlflow
 import pandas as pd
 import seaborn as sns
+from sklearn.metrics import cohen_kappa_score
 import spacy
 
 
@@ -64,6 +65,33 @@ class Exploration:
         self.visualize_tokens(attribute='POS')
         self.visualize_tokens(attribute='DEP')
         self.visualize_response_lengths()
+        self.visualize_interrater_reliability()
+
+    def visualize_interrater_reliability(self):
+        """Visualize a SpaCy token attribute with a bar plot."""
+        # Accumulate the data for all the labels into the same dataframe.
+        labels, scores = [], []
+        for label in self.df[self.target_column].unique():
+            subdf = self.df[self.df[self.target_column] == label]
+            rater1_col = self.target_column.replace('final', 'first')
+            rater1_labels = subdf[rater1_col].astype(int).values
+            rater2_col = self.target_column.replace('final', 'second')
+            rater2_labels = subdf[rater2_col].astype(int).values
+            interrater_reliability = cohen_kappa_score(rater1_labels, rater2_labels)
+            labels.append(int(label))
+            scores.append(interrater_reliability)
+
+        visualization_df = pd.DataFrame({'Label': labels, 'Cohens Kappa Score': scores})
+
+        # Now visualize the dataframe.
+        plt.figure(figsize=(12, 6))
+        sns.barplot(data=visualization_df, x='Label', y='Cohens Kappa Score')
+        plt.title(f'Cohens Kappa for by Final Score - {self.exploration_name.replace("_", " ").title()}')
+        plt.tight_layout()
+        path = os.path.join(self.dir_, f'cohens_kappa_{self.exploration_name}.png')
+        plt.savefig(path)
+        mlflow.log_artifact(path)
+        plt.clf()
 
     def visualize_response_lengths(self):
         """Visualize response length in tokens for each label."""
